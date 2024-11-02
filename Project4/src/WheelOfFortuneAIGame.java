@@ -7,6 +7,7 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
 
     public WheelOfFortuneAIGame() {
         players = new ArrayList<WheelOfFortunePlayer>();
+        players.add(new RandomGuesser());
     }
 
     public WheelOfFortuneAIGame(WheelOfFortunePlayer player) {
