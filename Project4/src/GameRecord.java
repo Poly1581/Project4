@@ -38,4 +38,12 @@ public class GameRecord implements Comparable<GameRecord> {
         return this.score - otherRecord.score;
     }
 
+    /**
+     * ToString method - return playerID and score
+     * @return string-ified GameRecord
+     */
+    @Override
+    public String toString() {
+        return this.playerID + ": " + this.score;
+    }
 }
