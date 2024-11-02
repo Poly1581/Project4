@@ -1,23 +1,34 @@
-import com.sun.source.tree.Tree;
-
 import java.util.*;
 
 public class AllGamesRecord {
-    Integer numberOfGames = 0;
-    SortedMap<String, List<GameRecord>> playerGames = new TreeMap<String, List<GameRecord>>();
+    TreeSet<GameRecord> allGames = new TreeSet<GameRecord>();
+    Map<String, TreeSet<GameRecord>> playerGames = new HashMap<String, TreeSet<GameRecord>>();
 
     /**
      * Adds given gameRecord to list of gameRecords.
      * @param gameRecord gameRecord to be added
      */
     public void add(GameRecord gameRecord) {
-        numberOfGames++;
+        allGames.add(gameRecord);
         String id = gameRecord.getPlayerID();
         if(playerGames.containsKey(id)) {
             playerGames.get(id).add(gameRecord);
         } else {
-            playerGames.put(id, new ArrayList<GameRecord>(List.of(gameRecord)));
+            playerGames.put(id, new TreeSet<GameRecord>(List.of(gameRecord)));
         }
+    }
+
+    /**
+     * Helper method to compute the sum of a given set of gameRecords
+     * @param gameRecords a set of game records
+     * @return the average of all GameRecords in gameRecords
+     */
+    private static Double average(TreeSet<GameRecord> gameRecords) {
+        Double totalScore = 0.0;
+        for(GameRecord gameRecord : gameRecords) {
+            totalScore += gameRecord.getScore();
+        }
+        return totalScore / gameRecords.size();
     }
 
     /**
@@ -25,13 +36,7 @@ public class AllGamesRecord {
      * @return Double average of all scores
      */
     public Double average() {
-        Double totalScore = 0.0;
-        for(String playerID : playerGames.keySet()) {
-            for(GameRecord playerGameRecord : playerGames.get(playerID)) {
-                totalScore++;
-            }
-        }
-        return totalScore / numberOfGames;
+        return average(allGames);
     }
 
     /**
@@ -40,16 +45,32 @@ public class AllGamesRecord {
      * @return average of playerID's games
      */
     public Double average(String playerID) {
-        Double totalScore = 0.0;
-        List<GameRecord> playerGameRecords = playerGames.get(playerID);
-        for(GameRecord playerGameRecord : playerGameRecords) {
-            totalScore += playerGameRecord.getScore();
-        }
-        return totalScore / playerGameRecords.size();
+        return average(playerGames.get(playerID));
     }
-    
-    public List<GameRecord> highGameList(Integer n) {
 
+    /**
+     * Helper method to get highest n games from a given sorted set
+     * @param gameRecords a sorted (by nature of) TreeSet of GameRecords
+     * @param n the number of highest games to return
+     * @return the n (capped at size of gameRecords) highest games from gameRecords
+     */
+    private static List<GameRecord> highGameList(TreeSet<GameRecord> gameRecords, int n) {
+        List<GameRecord> highGames = new ArrayList<GameRecord>();
+        GameRecord highestGame = gameRecords.last();
+        while(highGames.size() < n && highestGame != null) {
+            highGames.add(highestGame);
+            highestGame = gameRecords.lower(highestGame);
+        }
+        return highGames;
+    }
+
+    /**
+     * Get n highest games (if n > number of games), return all games, sorted
+     * @param n the number of games to return
+     * @return the (sorted) list of
+     */
+    public List<GameRecord> highGameList(Integer n) {
+        return highGameList(allGames, allGames.size());
     }
 
     /**
@@ -59,7 +80,7 @@ public class AllGamesRecord {
      * @return a list of n of playerID's highest games
      */
     public List<GameRecord> highGameList(String playerID, Integer n) {
-        List<GameRecord> playerGameRecords = playerGames.get(playerID);
-        return playerGameRecords.subList(0, Math.max(n, playerGameRecords.size()));
+        TreeSet<GameRecord> playerGameRecords = playerGames.get(playerID);
+        return highGameList(playerGameRecords, n);
     }
 }
