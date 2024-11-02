@@ -27,4 +27,15 @@ public class GameRecord implements Comparable<GameRecord> {
     public String getPlayerID() {
         return playerID;
     }
+
+    /**
+     * CompareTo other GameRecord - compare by scores
+     * @param otherRecord the object to be compared.
+     * @return comparison value
+     */
+    @Override
+    public int compareTo(GameRecord otherRecord) {
+        return this.score - otherRecord.score;
+    }
+
 }
