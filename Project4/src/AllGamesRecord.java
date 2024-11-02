@@ -1,26 +1,50 @@
-import java.util.ArrayList;
-import java.util.List;
+import com.sun.source.tree.Tree;
+
+import java.util.*;
 
 public class AllGamesRecord {
-    List<GameRecord> gameRecords = new ArrayList<GameRecord>();
+    Integer numberOfGames = 0;
+    SortedMap<String, List<GameRecord>> playerGames = new TreeMap<String, List<GameRecord>>();
 
     /**
      * Adds given gameRecord to list of gameRecords.
      * @param gameRecord gameRecord to be added
      */
     public void add(GameRecord gameRecord) {
-        gameRecords.add(gameRecord);
+        numberOfGames++;
+        String id = gameRecord.getPlayerID();
+        if(playerGames.containsKey(id)) {
+            playerGames.get(id).add(gameRecord);
+        } else {
+            playerGames.put(id, new ArrayList<GameRecord>(List.of(gameRecord)));
+        }
     }
 
     /**
-     * Compute average score (sum/count)
+     * Compute average score (sum/count) of all games
      * @return Double average of all scores
      */
     public Double average() {
-        int totalScore = 0;
-        for(GameRecord gameRecord : gameRecords) {
-            totalScore += gameRecord.getScore();
+        Double totalScore = 0.0;
+        for(String playerID : playerGames.keySet()) {
+            for(GameRecord playerGameRecord : playerGames.get(playerID)) {
+                totalScore++;
+            }
         }
-        return (double) totalScore / (double) gameRecords.size();
+        return totalScore / numberOfGames;
+    }
+
+    /**
+     * Compute average score (sum/count) of all of a players games.
+     * @param playerID the player whose average is to be calculated
+     * @return average of playerID's games
+     */
+    public Double average(String playerID) {
+        Double totalScore = 0.0;
+        List<GameRecord> playerGameRecords = playerGames.get(playerID);
+        for(GameRecord playerGameRecord : playerGameRecords) {
+            totalScore += playerGameRecord.getScore();
+        }
+        return totalScore / playerGameRecords.size();
     }
 }
