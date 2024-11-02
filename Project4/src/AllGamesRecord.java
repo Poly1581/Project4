@@ -47,4 +47,19 @@ public class AllGamesRecord {
         }
         return totalScore / playerGameRecords.size();
     }
+    
+    public List<GameRecord> highGameList(Integer n) {
+
+    }
+
+    /**
+     * Get player's n highest games by score.
+     * @param playerID the player whose scores are to be returned
+     * @param n how many scores are to be returned
+     * @return a list of n of playerID's highest games
+     */
+    public List<GameRecord> highGameList(String playerID, Integer n) {
+        List<GameRecord> playerGameRecords = playerGames.get(playerID);
+        return playerGameRecords.subList(0, Math.max(n, playerGameRecords.size()));
+    }
 }
