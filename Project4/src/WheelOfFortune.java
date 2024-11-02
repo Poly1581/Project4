@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class WheelOfFortune extends Game {
-    protected class GameState {
+    public class GameState {
         private String phrase = randomPhrase();
         public Integer numGuessesRemaining = 10;
         public String previousGuesses = "";

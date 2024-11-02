@@ -20,7 +20,7 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
 
     @Override
     public char getGuess() {
-        return players.get(activePlayer).nextGuess();
+        return players.get(activePlayer).nextGuess(gameState);
     }
 
     @Override
