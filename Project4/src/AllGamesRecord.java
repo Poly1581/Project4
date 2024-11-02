@@ -83,4 +83,14 @@ public class AllGamesRecord {
         TreeSet<GameRecord> playerGameRecords = playerGames.get(playerID);
         return highGameList(playerGameRecords, n);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder AllGamesRecordString = new StringBuilder();
+        for(GameRecord gameRecord : allGames) {
+            AllGamesRecordString.append(gameRecord.toString());
+            AllGamesRecordString.append("\n");
+        }
+        return AllGamesRecordString.toString();
+    }
 }

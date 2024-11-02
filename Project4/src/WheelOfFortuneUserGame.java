@@ -4,6 +4,12 @@ public class WheelOfFortuneUserGame extends WheelOfFortune {
     private Scanner userInput = new Scanner(System.in);
     private String userID;
 
+    public static void main(String[] args) {
+        WheelOfFortuneUserGame userGame = new WheelOfFortuneUserGame();
+        AllGamesRecord gamesRecord = userGame.playAll();
+        System.out.println(gamesRecord);
+    }
+
     public WheelOfFortuneUserGame() {
         System.out.println("Please enter your playerID:");
         userID =  userInput.next();

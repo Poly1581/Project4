@@ -79,7 +79,7 @@ public class FrequencyGuesser implements WheelOfFortunePlayer {
 
     @Override
     public String playerID() {
-        return "";
+        return "Frequency Guesser AI";
     }
 
     @Override

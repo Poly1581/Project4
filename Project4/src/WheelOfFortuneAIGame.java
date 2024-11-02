@@ -5,6 +5,12 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
     Integer activePlayer = 0;
     List<WheelOfFortunePlayer> players;
 
+    public static void main(String[] args) {
+        WheelOfFortuneAIGame AIGame = new WheelOfFortuneAIGame(List.of(new RandomGuesser(), new FrequencyGuesser()));
+        AllGamesRecord gamesRecord = AIGame.playAll();
+        System.out.println(gamesRecord);
+    }
+
     public WheelOfFortuneAIGame() {
         players = new ArrayList<WheelOfFortunePlayer>();
         players.add(new RandomGuesser());
