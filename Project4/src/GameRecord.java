@@ -11,4 +11,20 @@ public class GameRecord implements Comparable<GameRecord> {
         this.score = score;
         this.playerID = playerID;
     }
+
+    /**
+     * Score getter
+     * @return score of the GameRecord
+     */
+    public Integer getScore() {
+        return score;
+    }
+
+    /**
+     * PlayerID getter
+     * @return playerID of the GameRecord
+     */
+    public String getPlayerID() {
+        return playerID;
+    }
 }
