@@ -3,15 +3,16 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class WheelOfFortune extends Game {
-    private class GameState {
-        Integer guessesRemaining = 10;
-        String previousGuesses = "";
-        String remainingGuesses = "abcdefghijklmnopqrstuvwxyz";
-        String phrase = randomPhrase();
-        String hiddenPhrase = getHiddenPhrase(phrase, previousGuesses);
-        Boolean lostGame = false;
-        Boolean wonGame = false;
+    protected class GameState {
+        private String phrase = randomPhrase();
+        public Integer numGuessesRemaining = 10;
+        public String previousGuesses = "";
+        public String remainingGuesses = "abcdefghijklmnopqrstuvwxyz";
+        public String hiddenPhrase = getHiddenPhrase(phrase, previousGuesses);
+        public Boolean lostGame = false;
+        public Boolean wonGame = false;
     }
+    protected GameState gameState;
     List<String> phrases = new ArrayList<String>();
 
     private String randomPhrase() {
@@ -22,7 +23,7 @@ public abstract class WheelOfFortune extends Game {
         return phrase;
     }
 
-    private String getHiddenPhrase(String phrase, String previousGuesses) {
+    private static String getHiddenPhrase(String phrase, String previousGuesses) {
         StringBuilder hiddenPhrase = new StringBuilder();
         for(int i = 0; i < phrase.length(); i++) {
             Character c = phrase.charAt(i);
@@ -45,7 +46,7 @@ public abstract class WheelOfFortune extends Game {
             gameState.hiddenPhrase = getHiddenPhrase(gameState.phrase, gameState.previousGuesses);
             gameState.wonGame = gameState.hiddenPhrase.indexOf('*') == -1;
         } else {
-            gameState.lostGame = --gameState.guessesRemaining == 0;
+            gameState.lostGame = --gameState.numGuessesRemaining == 0;
         }
     }
 
@@ -53,7 +54,7 @@ public abstract class WheelOfFortune extends Game {
     public GameRecord play() {
         GameState gameState = new GameState();
         while(!gameState.lostGame && !gameState.wonGame) {
-            char guess = getGuess(gameState.previousGuesses);
+            char guess = getGuess();
             processGuess(gameState, guess);
         }
         if(gameState.wonGame) {
@@ -61,7 +62,7 @@ public abstract class WheelOfFortune extends Game {
         } else {
             System.out.println("Womp womp, you lost.");
         }
-        return new GameRecord(100 * gameState.guessesRemaining / new GameState().guessesRemaining, playerID());
+        return new GameRecord(100 * gameState.numGuessesRemaining / new GameState().numGuessesRemaining, playerID());
     }
 
     @Override
@@ -69,6 +70,5 @@ public abstract class WheelOfFortune extends Game {
         return !phrases.isEmpty();
     }
 
-    public abstract String playerID();
-    public abstract char getGuess(String previousGuesses);
+    public abstract char getGuess();
 }

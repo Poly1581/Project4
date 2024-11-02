@@ -1,4 +1,5 @@
 public abstract class Game {
+    String playerID = playerID();
     /**
      * play all games (while player wants to)
      * @return all game records from session
@@ -15,4 +16,5 @@ public abstract class Game {
 
     public abstract GameRecord play();
     public abstract Boolean playNext();
+    public abstract String playerID();
 }
