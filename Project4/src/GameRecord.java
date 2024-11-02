@@ -46,4 +46,29 @@ public class GameRecord implements Comparable<GameRecord> {
     public String toString() {
         return this.playerID + ": " + this.score;
     }
+
+    /**
+     * Equals implementation:
+     *  - not equal if other object is null (this cannot be null)
+     *  - equal if other == this
+     *  - not equal if other is not a GameRecord
+     *  - equal if
+     *      - playerID's are equal and scores are equal
+     * @param other
+     * @return
+     */
+    @Override
+    public boolean equals(Object other) {
+        if(other == null) {
+            return false;
+        }
+        if(other == this) {
+            return true;
+        }
+        if(! (other instanceof GameRecord)) {
+            return false;
+        }
+        GameRecord otherGameRecord = (GameRecord) other;
+        return this.playerID.equals((otherGameRecord.playerID)) && this.score == otherGameRecord.score;
+    }
 }
