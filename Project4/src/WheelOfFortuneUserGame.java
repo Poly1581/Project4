@@ -2,10 +2,16 @@ import java.util.Scanner;
 
 public class WheelOfFortuneUserGame extends WheelOfFortune {
     private Scanner userInput = new Scanner(System.in);
+    private String userID;
+
+    public WheelOfFortuneUserGame() {
+        System.out.println("Please enter your playerID:");
+        userID =  userInput.next();
+    }
+
     @Override
     public String playerID() {
-        System.out.println("Please enter your player ID:");
-        return userInput.next();
+        return userID;
     }
 
     public void promptGuess() {

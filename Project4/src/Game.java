@@ -1,5 +1,4 @@
 public abstract class Game {
-    String playerID = playerID();
     /**
      * play all games (while player wants to)
      * @return all game records from session
